@@ -24,6 +24,12 @@
   text-align: left;
 }
 
+input[type=text] {
+  width: 250px;
+  height: calc(12px + 2vmin);
+  font-size: calc(10px + 2vmin);
+}
+
 input[type=number] {
   width: 250px;
   height: calc(12px + 2vmin);

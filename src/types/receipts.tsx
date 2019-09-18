@@ -1,15 +1,15 @@
-export interface Receipt {
+interface Receipt {
   id: (string|null);
   /**
    * The merchant from who this receipt originated (externalId, merchant)
    * must always be unique. It can be nullable, as (on creation and update) integrators will *always*
    * have the ID of the merchant they are operating on sent up as part of the HTTP headers
    */
-  merchant: string;
+  merchant: 'DEFAULT_MERCHANT';
   /**
    * Which store the receipt originated from. We expect this to be merchant provided store ID and must exist in your store setup.
    */
-  store_id: string;
+  store_id: 'DEFAULT_STORE';
   /**
    * ID of the pos device (terminal or software) (eg. pos-123).
    */
@@ -17,7 +17,7 @@ export interface Receipt {
   /**
    * The terminal this transaction originated from within a store. This ID must exist in your store setup.
    */
-  tid: string;
+  tid: 'DEFAULT_TID';
   /**
    * API Client provided ID for the given receipt. (externalId, merchant) must
    * always be unique
@@ -110,24 +110,23 @@ export interface Receipt {
   return_period: (number|null);
   tags: string[];
 }
+
+export default Receipt;
   
 export function makeReceipt(
   input: {
     id?: string,
-    merchant: string,
-    store_id?: string,
     pos_id?: (string|null),
     tid?: string,
     external_id?: string,
-    basket_items: BasketItem[],
+    basket_items?: BasketItem[],
     raw_basket_items?: (string|null),
-    payment_data: PaymentInfo[],
+    payment_data?: PaymentInfo[],
     raw_payment_data?: (string|null),
     other_payments?: OtherPayment[],
-    issued_at: number,
-    is_tax_invoice: boolean,
-    total_tax: number,
-    total_price: number,
+    issued_at?: number,
+    total_tax?: number,
+    total_price?: number,
     barcode?: (Barcode|null),
     metadata?: (string|null),
     return_period?: (number|null),
@@ -136,24 +135,24 @@ export function makeReceipt(
 ): Receipt {
   return {
     id: input.id === undefined ? null : input.id,
-    merchant: input.merchant,
-    store_id: input.store_id === undefined ? "" : input.store_id,
+    merchant: 'DEFAULT_MERCHANT',
+    store_id: 'DEFAULT_STORE',
     pos_id: input.pos_id === undefined ? null : input.pos_id,
-    tid: input.tid === undefined ? "" : input.tid,
+    tid: 'DEFAULT_TID',
     external_id: input.external_id === undefined ? "" : input.external_id,
     replacement_for: null,
     replaced_by: null,
-    basket_items: input.basket_items,
+    basket_items: input.basket_items === undefined ? [] : input.basket_items,
     raw_basket_items: input.raw_basket_items === undefined ? null : input.raw_basket_items,
-    payment_data: input.payment_data,
+    payment_data: input.payment_data === undefined ? [] : input.payment_data,
     raw_payment_data: input.raw_payment_data === undefined ? null : input.raw_payment_data,
     other_payments: input.other_payments === undefined ? [] : input.other_payments,
     purchaser: null,
     loyalty_card_transactions: [],
-    issued_at: input.issued_at,
-    is_tax_invoice: input.is_tax_invoice,
-    total_tax: input.total_tax,
-    total_price: input.total_price,
+    issued_at: input.issued_at === undefined ? 0 : input.issued_at,
+    is_tax_invoice: true,
+    total_tax: input.total_tax === undefined ? 0 : input.total_tax,
+    total_price: input.total_price === undefined ? 0 : input.total_price,
     currency_code: 'AUD',
     barcode: input.barcode === undefined ? null : input.barcode,
     metadata: input.metadata === undefined ? null : input.metadata,
@@ -174,11 +173,11 @@ export interface Barcode {
   
 export function makeBarcode(
   input: {
-    id: string
+    id?: string
   }
 ): Barcode {
   return {
-    id: input.id,
+    id: input.id === undefined ? '' : input.id,
     format: 8,
   };
 }
@@ -237,12 +236,12 @@ export function makeBasketProduct(
   input: {
     seqno?: (number|null),
     external_id?: (string|null),
-    name: string,
+    name?: string,
     short_description?: (string|null),
     description?: (string|null),
     brand?: (string|null),
     tags?: string[],
-    pricing: Pricing,
+    pricing?: Pricing,
     quantity_purchased?: number,
     warranty_period?: number,
     serial_number?: (string|null),
@@ -256,14 +255,14 @@ export function makeBasketProduct(
   return {
     seqno: input.seqno === undefined ? null : input.seqno,
     external_id: input.external_id === undefined ? null : input.external_id,
-    name: input.name,
+    name: input.name === undefined ? '' : input.name,
     short_description: input.short_description === undefined ? null : input.short_description,
     description: input.description === undefined ? null : input.description,
-    attributes: input.attributes === undefined ? [] : input.attributes,
+    attributes: [],
     brand: input.brand === undefined ? null : input.brand,
-    identifiers: input.identifiers === undefined ? [] : input.identifiers,
+    identifiers: [],
     tags: input.tags === undefined ? [] : input.tags,
-    pricing: input.pricing,
+    pricing: makePricing({}),
     quantity_purchased: input.quantity_purchased === undefined ? 1 : input.quantity_purchased,
     warranty_period: input.warranty_period === undefined ? 0 : input.warranty_period,
     serial_number: input.serial_number === undefined ? null : input.serial_number,
@@ -311,17 +310,17 @@ export interface Pricing {
 
 export function makePricing(
   input: {
-    price: number,
-    tax: number,
+    price?: number,
+    tax?: number,
     discount?: number,
-    tax_type: string,
+    tax_type?: string,
   }
 ): Pricing {
   return {
-    price: input.price,
-    tax: input.tax,
+    price: input.price === undefined ? 0 : input.price,
+    tax: input.tax === undefined ? 0 : input.tax,
     discount: input.discount === undefined ? 0 : input.discount,
-    tax_type: input.tax_type,
+    tax_type: input.tax_type === undefined ? 'GST' : input.tax_type,
     currency_code: 'AUD',
   };
 }
@@ -339,7 +338,7 @@ export interface PaymentInfo {
   /**
    * The merchant ID as sent to the issuer by the acquirer/card network
    */
-  network_merchant_id: string;
+  network_merchant_id: '';
   /**
    * This is the merchant who is accepting the payment
    */
@@ -412,32 +411,31 @@ export interface PaymentInfo {
 
 export function makePaymentInfo(
   input: {
-    card: MaskedCard,
-    network_merchant_id: string,
+    card?: MaskedCard,
     card_acceptor_name?: (string|null),
     tid?: (string|null),
     rrn?: (string|null),
     stan?: (string|null),
     auth_code?: (string|null),
-    transaction_date: string,
-    purchase_amount: number,
-    total: number,
+    transaction_date?: string,
+    purchase_amount?: number,
+    total?: number,
     pos_ref_no?: (string|null),
     transaction_reference_number?: (string|null),
     reference_id?: (string|null),
   }
 ): PaymentInfo {
   return {
-    card: input.card,
-    network_merchant_id: input.network_merchant_id,
+    card: input.card === undefined ? makeMaskedCard({}) : input.card,
+    network_merchant_id: '',
     card_acceptor_name: input.card_acceptor_name === undefined ? null : input.card_acceptor_name,
     tid: input.tid === undefined ? null : input.tid,
     rrn: input.rrn === undefined ? null : input.rrn,
     stan: input.stan === undefined ? null : input.stan,
     auth_code: input.auth_code === undefined ? null : input.auth_code,
-    transaction_date: input.transaction_date,
-    purchase_amount: input.purchase_amount,
-    total: input.total,
+    transaction_date: input.transaction_date === undefined ? '01/01/1970' : input.transaction_date,
+    purchase_amount: input.purchase_amount === undefined ? 0 : input.purchase_amount,
+    total: input.total === undefined ? 0 : input.total,
     currency_code: 'AUD',
     address: null,
     merchant_category_code: null,
@@ -481,7 +479,7 @@ export interface MaskedCard {
 
 export function makeMaskedCard(
   input: {
-    pan: Pan,
+    pan?: Pan,
     external_id?: (string|null),
     name?: (string|null),
     expiry?: (string|null),
@@ -489,7 +487,7 @@ export function makeMaskedCard(
   }
 ): MaskedCard {
   return {
-    pan: input.pan,
+    pan: input.pan === undefined ? { kind: 'mpan', value: '123456xxxxxx7890' } : input.pan,
     external_id: input.external_id === undefined ? null : input.external_id,
     name: input.name === undefined ? null : input.name,
     expiry: input.expiry === undefined ? null : input.expiry,
@@ -498,7 +496,7 @@ export function makeMaskedCard(
 }
 
 export interface Pan {
-  kind: 'pan';
+  kind: 'mpan';
   value: string;
 }
 
@@ -514,12 +512,12 @@ export interface OtherPayment {
 export function makeOtherPayment(
   input: {
     reference?: (string|null),
-    amount: number,
+    amount?: number,
   }
 ): OtherPayment {
   return {
     payment_type: 0,
     reference: input.reference === undefined ? null : input.reference,
-    amount: input.amount,
+    amount: input.amount === undefined ? 0 : input.amount,
   };
 }
