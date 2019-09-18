@@ -5,6 +5,8 @@ import Store, { ReceiptStore } from './store';
 
 import './App.css';
 import Totals from './components/Totals';
+import POS from './components/POS';
+import Barcode from './components/Barcode';
 
 interface AppProps {
   receipt?: {};
@@ -14,6 +16,8 @@ export const App: React.FC<AppProps> = (props: AppProps) => {
   return (
     <Provider store={ Store } >
       <div className="App">
+        <POS/>
+        <Barcode/>
         <Totals/>
       </div>
     </Provider>

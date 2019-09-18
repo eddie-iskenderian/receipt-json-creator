@@ -1,5 +1,5 @@
 interface Receipt {
-  id: (string|null);
+  id: null
   /**
    * The merchant from who this receipt originated (externalId, merchant)
    * must always be unique. It can be nullable, as (on creation and update) integrators will *always*
@@ -39,7 +39,7 @@ interface Receipt {
   /**
    * Raw basket items. This field is for create/update requests only (never returned)
    */
-  raw_basket_items: (string|null);
+  raw_basket_items: '';
   /**
    * Information on the actual payment, this is what we expect will be most useful
    * when attempting to reconcile a receipt to a particular consumer
@@ -50,7 +50,7 @@ interface Receipt {
    * aren't sure how well this will be parsed into the above structure by
    * integrators
    */
-  raw_payment_data: (string|null);
+  raw_payment_data: '';
   /**
    * Information for cash and other non-card type payments.
    */
@@ -92,7 +92,7 @@ interface Receipt {
   /**
    * Arbitrary metadata provided by the integrator
    */
-  metadata: (string|null);
+  metadata: null;
   offers: {kind : "default_campaign"};
   feedback: {kind : "default_survey"};
   receipt_type: 0;
@@ -115,26 +115,21 @@ export default Receipt;
   
 export function makeReceipt(
   input: {
-    id?: string,
     pos_id?: (string|null),
-    tid?: string,
     external_id?: string,
     basket_items?: BasketItem[],
-    raw_basket_items?: (string|null),
     payment_data?: PaymentInfo[],
-    raw_payment_data?: (string|null),
     other_payments?: OtherPayment[],
     issued_at?: number,
     total_tax?: number,
     total_price?: number,
     barcode?: (Barcode|null),
-    metadata?: (string|null),
     return_period?: (number|null),
     tags?: string[],
   }
 ): Receipt {
   return {
-    id: input.id === undefined ? null : input.id,
+    id: null,
     merchant: 'DEFAULT_MERCHANT',
     store_id: 'DEFAULT_STORE',
     pos_id: input.pos_id === undefined ? null : input.pos_id,
@@ -143,9 +138,9 @@ export function makeReceipt(
     replacement_for: null,
     replaced_by: null,
     basket_items: input.basket_items === undefined ? [] : input.basket_items,
-    raw_basket_items: input.raw_basket_items === undefined ? null : input.raw_basket_items,
+    raw_basket_items: '',
     payment_data: input.payment_data === undefined ? [] : input.payment_data,
-    raw_payment_data: input.raw_payment_data === undefined ? null : input.raw_payment_data,
+    raw_payment_data: '',
     other_payments: input.other_payments === undefined ? [] : input.other_payments,
     purchaser: null,
     loyalty_card_transactions: [],
@@ -155,7 +150,7 @@ export function makeReceipt(
     total_price: input.total_price === undefined ? 0 : input.total_price,
     currency_code: 'AUD',
     barcode: input.barcode === undefined ? null : input.barcode,
-    metadata: input.metadata === undefined ? null : input.metadata,
+    metadata: null,
     offers: { kind : "default_campaign" },
     feedback: { kind : "default_survey" },
     receipt_type: 0,

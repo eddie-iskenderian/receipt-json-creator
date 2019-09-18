@@ -1,15 +1,21 @@
+body {
+  background-color: #282c34;
+}
+
 .App {
   justify-items: center;
 }
 
 .App-component {
-  background-color: #282c34;
   display: grid;
-  grid-template-columns: 50% 50%;
+  grid-template-columns: 30% 70%;
   grid-gap: 10px;
   
   justify-content: center;
   align-content: start;
+  
+  width: 400px;
+  margin: 10px auto;
 }
 
 .App-field {
