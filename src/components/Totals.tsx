@@ -34,18 +34,24 @@ const Totals: React.FC<TotalProps> = (props: TotalProps) => {
       <div className='App-field'>Tax</div>
       <div className='App-input'>
         <input type="text" value={ totalState.tax || '' } onChange={ (event) => {
-            const next = sanitiseFloat(event.target.value) || totalState.tax || '';
-            setState({ tax: next });
-            props.dispatch(setTax(parseFloat(next) || 0));
+            let clean = sanitiseFloat(event.target.value);
+            if (clean === null) {
+              clean = totalState.tax || '';
+            }
+            setState({ tax: clean });
+            props.dispatch(setTax(parseFloat(clean) || 0));
           }
         }></input>
       </div>
       <div className='App-field'>Total</div>
       <div className='App-input'>
-        <input type="number" value={ totalState.total || '' } onChange={ (event) => {
-            const next = sanitiseFloat(event.target.value) || totalState.total || '';
-            setState({ total: next });
-            props.dispatch(setTotal(parseFloat(next) || 0));
+        <input type="text" value={ totalState.total || '' } onChange={ (event) => {
+            let clean = sanitiseFloat(event.target.value);
+            if (clean === null) {
+              clean = totalState.total || '';
+            }
+            setState({ total: clean });
+            props.dispatch(setTotal(parseFloat(clean) || 0));
           }
         }></input>
       </div>

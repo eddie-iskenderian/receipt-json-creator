@@ -31,9 +31,12 @@ const Returns: React.FC<ReturnsProps> = (props: ReturnsProps) => {
       <div className='App-field'>Return period</div>
       <div className='App-input'>
         <input type="text" value={ returnsState.return_period || '' } onChange={ (event) => {
-            const next = sanitiseInt(event.target.value) || returnsState.return_period || '';
-            setState({ return_period: next });
-            props.dispatch(setReturns(parseInt(next, 10) || 0));
+            let clean = sanitiseInt(event.target.value);
+            if (clean === null) {
+              clean = returnsState.return_period || '';
+            }
+            setState({ return_period: clean });
+            props.dispatch(setReturns(parseInt(clean, 10) || 0));
           }
         }></input>
       </div>
