@@ -13,10 +13,10 @@ interface BarcodeProps {
 }
 
 const mapStateToProps = (state: ReceiptStore) => ({
-    BarcodeProps: state.total_price
+    id: state.barcode ? state.barcode.id : ''
 });
 
-const Totals: React.FC<BarcodeProps> = (props: BarcodeProps) => {
+const Barcode: React.FC<BarcodeProps> = (props: BarcodeProps) => {
   return (
     <div className='App-component'>
       <div className='App-field'>Barcode</div>
@@ -27,4 +27,4 @@ const Totals: React.FC<BarcodeProps> = (props: BarcodeProps) => {
   );
 }
 
-export default connect(mapStateToProps)(Totals);
+export default connect(mapStateToProps)(Barcode);

@@ -1,6 +1,7 @@
 import * as constants from '../constants';
+import { number } from 'prop-types';
 
-export type SetAttribute = SetTotal | SetTax | SetPosId | SetExternalId | SetBarcode;
+export type SetAttribute = SetTotal | SetTax | SetPosId | SetExternalId | SetBarcode | SetReturns;
 
 export interface SetTax {
   type: constants.SET_TAX;
@@ -50,4 +51,14 @@ export interface SetBarcode {
 export const setBarcode = (id: string) => ({
   type: constants.SET_BARCODE,
   id
+});
+
+export interface SetReturns {
+  type: constants.SET_RETURNS;
+  returns: number;
+}
+
+export const setReturns = (returns: number) => ({
+  type: constants.SET_RETURNS,
+  returns
 });

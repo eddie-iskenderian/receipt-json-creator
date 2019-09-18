@@ -16,3 +16,7 @@ export type SET_EXTERNAL_ID = typeof SET_EXTERNAL_ID;
 // The barcode
 export const SET_BARCODE = 'SET_BARCODE';
 export type SET_BARCODE = typeof SET_BARCODE;
+
+// Returns in days
+export const SET_RETURNS = 'SET_RETURNS';
+export type SET_RETURNS = typeof SET_RETURNS;

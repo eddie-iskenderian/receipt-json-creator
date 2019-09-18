@@ -1,6 +1,6 @@
 import { SetAttribute } from '../actions';
 import { ReceiptStore, NullStore } from '../store';
-import { SET_TOTAL, SET_TAX, SET_POS_ID, SET_EXTERNAL_ID, SET_BARCODE } from '../constants/index';
+import { SET_TOTAL, SET_TAX, SET_POS_ID, SET_EXTERNAL_ID, SET_BARCODE, SET_RETURNS } from '../constants/index';
 import { makeBarcode } from '../types/receipts';
 
 export const attributes = (state: ReceiptStore | undefined, action: SetAttribute): ReceiptStore => {
@@ -22,8 +22,12 @@ export const attributes = (state: ReceiptStore | undefined, action: SetAttribute
 
     case SET_BARCODE:
       return { ...state, barcode: makeBarcode({
-        id: action.id
-      }) };
+          id: action.id
+        })
+      };
+
+    case SET_RETURNS:
+      return { ...state, return_period: action.returns} ;
    }
   return state;
 };

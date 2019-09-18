@@ -9,15 +9,16 @@ import '../App.css';
 
 interface PosProps {
   dispatch: Dispatch<Action>;
-  tax?: number;
-  total?: number;
+  pos_id?: string;
+  external_id?: string;
 }
 
 const mapStateToProps = (state: ReceiptStore) => ({
-    PosProps: state.total_price
+    pos_id: state.pos_id || '',
+    external_id: state.external_id
 });
 
-const Totals: React.FC<PosProps> = (props: PosProps) => {
+const POS: React.FC<PosProps> = (props: PosProps) => {
   return (
     <div className='App-component'>
       <div className='App-field'>POS Id</div>
@@ -32,4 +33,4 @@ const Totals: React.FC<PosProps> = (props: PosProps) => {
   );
 }
 
-export default connect(mapStateToProps)(Totals);
+export default connect(mapStateToProps)(POS);

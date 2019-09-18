@@ -3,10 +3,12 @@ import { connect, Provider } from 'react-redux';
 
 import Store, { ReceiptStore } from './store';
 
-import './App.css';
 import Totals from './components/Totals';
 import POS from './components/POS';
 import Barcode from './components/Barcode';
+import Returns from './components/Returns';
+
+import './App.css';
 
 interface AppProps {
   receipt?: {};
@@ -19,6 +21,7 @@ export const App: React.FC<AppProps> = (props: AppProps) => {
         <POS/>
         <Barcode/>
         <Totals/>
+        <Returns/>
       </div>
     </Provider>
   );

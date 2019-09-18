@@ -21,7 +21,8 @@ interface TotalState {
 }
 
 const mapStateToProps = (state: ReceiptStore) => ({
-    TotalProps: state.total_price
+    total: state.total_price,
+    tax: state.total_tax
 });
 
 const Totals: React.FC<TotalProps> = (props: TotalProps) => {
