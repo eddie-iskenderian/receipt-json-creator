@@ -1,7 +1,14 @@
 import * as constants from '../constants';
-import { number } from 'prop-types';
+import { PaymentInfo } from '../types/receipts';
 
-export type SetAttribute = SetTotal | SetTax | SetPosId | SetExternalId | SetBarcode | SetReturns;
+export type SetAttribute =
+  SetTotal
+  | SetTax
+  | SetPosId
+  | SetExternalId 
+  | SetBarcode 
+  | SetReturns
+  | SetPayments;
 
 export interface SetTax {
   type: constants.SET_TAX;
@@ -61,4 +68,14 @@ export interface SetReturns {
 export const setReturns = (returns: number) => ({
   type: constants.SET_RETURNS,
   returns
+});
+
+export interface SetPayments {
+  type: constants.SET_PAYMENTS;
+  payments: PaymentInfo[];
+}
+
+export const setPayments = (payments: PaymentInfo[]) => ({
+  type: constants.SET_PAYMENTS,
+  payments
 });

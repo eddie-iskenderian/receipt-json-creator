@@ -20,3 +20,7 @@ export type SET_BARCODE = typeof SET_BARCODE;
 // Returns in days
 export const SET_RETURNS = 'SET_RETURNS';
 export type SET_RETURNS = typeof SET_RETURNS;
+
+// Card payments
+export const SET_PAYMENTS = 'SET_PAYMENTS';
+export type SET_PAYMENTS = typeof SET_PAYMENTS;

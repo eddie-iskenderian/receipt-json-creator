@@ -337,11 +337,11 @@ export interface PaymentInfo {
   /**
    * This is the merchant who is accepting the payment
    */
-  card_acceptor_name: (string|null);
+  card_acceptor_name: null;
   /**
    * The id provided by the terminal. eg "34645364"
    */
-  tid: (string|null);
+  tid: null;
   /**
    * The Retrieval Reference Number for the payment
    */
@@ -353,7 +353,7 @@ export interface PaymentInfo {
   /**
    * The authorisation code for the payment
    */
-  auth_code: (string|null);
+  auth_code: null;
   /**
    * The transaction date, stored in exactly the same format it was supplied to us by the integrator
    * this may aid matching
@@ -364,7 +364,7 @@ export interface PaymentInfo {
    * purchase amount and total are returned in all EFT transaction.
    * Unsure where they are not the same. To determine if both required in future.
    */
-  purchase_amount: number;
+  purchase_amount: 0;
   total: number;
   /**
    * What currency was this payment made in. For example, Receipt line items may be
@@ -395,41 +395,34 @@ export interface PaymentInfo {
   /**
    * The POS generated transaction reference number. eg "134771".
    */
-  pos_ref_no: (string|null);
+  pos_ref_no: null;
   /**
    * The POS generated transaction reference number.
    * This may be the same as pos_ref_no
    */
-  transaction_reference_number: (string|null);
-  reference_id: (string|null);
+  transaction_reference_number: null;
+  reference_id: null;
 }
 
 export function makePaymentInfo(
   input: {
     card?: MaskedCard,
-    card_acceptor_name?: (string|null),
-    tid?: (string|null),
     rrn?: (string|null),
     stan?: (string|null),
-    auth_code?: (string|null),
     transaction_date?: string,
-    purchase_amount?: number,
     total?: number,
-    pos_ref_no?: (string|null),
-    transaction_reference_number?: (string|null),
-    reference_id?: (string|null),
   }
 ): PaymentInfo {
   return {
     card: input.card === undefined ? makeMaskedCard({}) : input.card,
     network_merchant_id: '',
-    card_acceptor_name: input.card_acceptor_name === undefined ? null : input.card_acceptor_name,
-    tid: input.tid === undefined ? null : input.tid,
+    card_acceptor_name: null,
+    tid: null,
     rrn: input.rrn === undefined ? null : input.rrn,
     stan: input.stan === undefined ? null : input.stan,
-    auth_code: input.auth_code === undefined ? null : input.auth_code,
+    auth_code: null,
     transaction_date: input.transaction_date === undefined ? '01/01/1970' : input.transaction_date,
-    purchase_amount: input.purchase_amount === undefined ? 0 : input.purchase_amount,
+    purchase_amount: 0,
     total: input.total === undefined ? 0 : input.total,
     currency_code: 'AUD',
     address: null,
@@ -438,9 +431,9 @@ export function makePaymentInfo(
     terminal_name: null,
     purchase_type: null,
     transaction_type: null,
-    pos_ref_no: input.pos_ref_no === undefined ? null : input.pos_ref_no,
-    transaction_reference_number: input.transaction_reference_number === undefined ? null : input.transaction_reference_number,
-    reference_id: input.reference_id === undefined ? null : input.reference_id,
+    pos_ref_no: null,
+    transaction_reference_number: null,
+    reference_id: null,
   };
 }
 

@@ -7,6 +7,7 @@ import Totals from './components/Totals';
 import POS from './components/POS';
 import Barcode from './components/Barcode';
 import Returns from './components/Returns';
+import PaymentInfo from './components/PaymentInfo';
 
 import './App.css';
 
@@ -19,6 +20,7 @@ export const App: React.FC<AppProps> = (props: AppProps) => {
     <Provider store={ Store } >
       <div className="App">
         <POS/>
+        <PaymentInfo/>
         <Barcode/>
         <Totals/>
         <Returns/>
