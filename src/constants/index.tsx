@@ -1,3 +1,5 @@
+export const SET_TEST_CASE = 'SET_TEST_CASE';
+export type SET_TEST_CASE = typeof SET_TEST_CASE;
 
 // Total figures in a receipt
 export const SET_TAX = 'SET_TAX';
@@ -21,9 +23,12 @@ export type SET_BARCODE = typeof SET_BARCODE;
 export const SET_RETURNS = 'SET_RETURNS';
 export type SET_RETURNS = typeof SET_RETURNS;
 
-// Card payments
+// Payments
 export const SET_PAYMENTS = 'SET_PAYMENTS';
 export type SET_PAYMENTS = typeof SET_PAYMENTS;
+
+export const SET_OTHER_PAYMENTS = 'SET_OTHER_PAYMENTS';
+export type SET_OTHER_PAYMENTS = typeof SET_OTHER_PAYMENTS;
 
 // Basket items
 export const SET_ITEMS = 'SET_ITEMS';

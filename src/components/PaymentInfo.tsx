@@ -8,7 +8,7 @@ import { ReceiptStore } from '../store';
 import { setPayments } from '../actions';
 
 import { sanitiseFloat } from '../functions'
-import { PaymentInfo, makePaymentInfo, makeMaskedCard } from '../types/receipts';
+import { PaymentInfo, makePaymentInfo } from '../types/receipts';
 
 import '../App.css';
 

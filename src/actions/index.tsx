@@ -1,15 +1,27 @@
 import * as constants from '../constants';
-import { PaymentInfo, BasketItem } from '../types/receipts';
+import { PaymentInfo, BasketItem, OtherPayment } from '../types/receipts';
 
 export type SetAttribute =
-  SetTotal
+  SetTestCase
+  | SetTotal
   | SetTax
   | SetPosId
   | SetExternalId 
   | SetBarcode 
   | SetReturns
   | SetPayments
+  | SetOtherPayments
   | SetItems;
+
+export interface SetTestCase {
+  type: constants.SET_TEST_CASE;
+  name: string;
+}
+
+export const setTestCase = (name: string): SetTestCase => ({
+  type: constants.SET_TEST_CASE,
+  name
+})
 
 export interface SetTax {
   type: constants.SET_TAX;
@@ -80,6 +92,16 @@ export const setPayments = (payments: PaymentInfo[]) => ({
   type: constants.SET_PAYMENTS,
   payments
 });
+
+export interface SetOtherPayments {
+  type: constants.SET_OTHER_PAYMENTS;
+  payments: OtherPayment[];
+}
+
+export const setOtherPayments = (payments: OtherPayment[]) => ({
+  type: constants.SET_OTHER_PAYMENTS,
+  payments
+})
 
 export interface SetItems {
   type: constants.SET_ITEMS;

@@ -8,7 +8,9 @@ import {
   SET_BARCODE,
   SET_RETURNS,
   SET_PAYMENTS, 
-  SET_ITEMS } from '../constants/index';
+  SET_ITEMS, 
+  SET_OTHER_PAYMENTS,
+  SET_TEST_CASE } from '../constants/index';
 import { makeBarcode } from '../types/receipts';
 
 export const attributes = (state: ReceiptStore | undefined, action: SetAttribute): ReceiptStore => {
@@ -16,6 +18,8 @@ export const attributes = (state: ReceiptStore | undefined, action: SetAttribute
     return NullStore;
   }
   switch (action.type) {
+    case SET_TEST_CASE:
+      return { ...state, merchant: action.name }
     case SET_TOTAL:
       return { ...state, total_price: action.total };
 
@@ -39,6 +43,9 @@ export const attributes = (state: ReceiptStore | undefined, action: SetAttribute
 
     case SET_PAYMENTS:
       return { ...state, payment_data: action.payments };
+
+    case SET_OTHER_PAYMENTS:
+      return { ...state, other_payments: action.payments };
 
     case SET_ITEMS:
       return { ...state, basket_items: action.items };

@@ -25,7 +25,7 @@ const mapStateToProps = (state: ReceiptStore) => ({
   items: state.basket_items
 });
 
-const Payments: React.FC<BasketProps> = (props: BasketProps) => {
+const BasketItems: React.FC<BasketProps> = (props: BasketProps) => {
   const [state, setState] = useState({});
   const basketState = state as BasketState;
 
@@ -145,4 +145,4 @@ const Payments: React.FC<BasketProps> = (props: BasketProps) => {
   );
 }
 
-export default connect(mapStateToProps)(Payments);
+export default connect(mapStateToProps)(BasketItems);

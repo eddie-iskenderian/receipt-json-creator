@@ -5,7 +5,7 @@ interface Receipt {
    * must always be unique. It can be nullable, as (on creation and update) integrators will *always*
    * have the ID of the merchant they are operating on sent up as part of the HTTP headers
    */
-  merchant: 'DEFAULT_MERCHANT';
+  merchant: string;
   /**
    * Which store the receipt originated from. We expect this to be merchant provided store ID and must exist in your store setup.
    */
@@ -115,6 +115,7 @@ export default Receipt;
   
 export function makeReceipt(
   input: {
+    merchant?: string,
     pos_id?: (string|null),
     external_id?: string,
     basket_items?: BasketItem[],
@@ -130,7 +131,7 @@ export function makeReceipt(
 ): Receipt {
   return {
     id: null,
-    merchant: 'DEFAULT_MERCHANT',
+    merchant: input.merchant === undefined ? '' : input.merchant,
     store_id: 'DEFAULT_STORE',
     pos_id: input.pos_id === undefined ? null : input.pos_id,
     tid: 'DEFAULT_TID',
