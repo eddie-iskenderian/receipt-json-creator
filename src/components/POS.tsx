@@ -9,12 +9,12 @@ import '../App.css';
 
 interface PosProps {
   dispatch: Dispatch<Action>;
-  pos_id?: string;
+  pos_id?: string|null;
   external_id?: string;
 }
 
 const mapStateToProps = (state: ReceiptStore) => ({
-    pos_id: state.pos_id || '',
+    pos_id: state.pos_id,
     external_id: state.external_id
 });
 
@@ -23,11 +23,13 @@ const POS: React.FC<PosProps> = (props: PosProps) => {
     <div className='App-component'>
       <div className='App-field'>POS Id</div>
       <div className='App-input'>
-        <input type='text' onChange={ event => props.dispatch(setPosId(event.target.value)) }></input>
+        <input type='text' value={ props.pos_id || '' } onChange={
+          event => props.dispatch(setPosId(event.target.value))
+        } placeholder={ props.pos_id === null ? 'null' : props.pos_id }></input>
       </div>
       <div className='App-field'>External Id</div>
       <div className='App-input'>
-        <input type='text' onChange={ event => props.dispatch(setExternalId(event.target.value)) }></input>
+        <input type='text' value={ props.external_id || '' } onChange={ event => props.dispatch(setExternalId(event.target.value)) }></input>
       </div>
     </div>
   );

@@ -14,19 +14,16 @@ import '../App.css';
 
 interface PaymentsProps {
   dispatch: Dispatch<Action>;
-  card?: string;
-  rrn?: string;
-  stan?: string;
-  transaction_date?: string;
-  total?: number;
+  payments?: PaymentInfo[];
 }
 
 interface PaymentState {
-  payments?: PaymentInfo[];
   totals?: string[];
 }
 
-const mapStateToProps = (state: ReceiptStore) => ({});
+const mapStateToProps = (state: ReceiptStore) => ({
+  payments: state.payment_data
+});
 
 const Payments: React.FC<PaymentsProps> = (props: PaymentsProps) => {
   const [state, setState] = useState({});
@@ -37,18 +34,18 @@ const Payments: React.FC<PaymentsProps> = (props: PaymentsProps) => {
       <div className='App-field'>Payment Info</div>
       <div>
         {
-          (paymentState.payments || []).map((payment: PaymentInfo, index) => {
+          (props.payments || []).map((payment: PaymentInfo, index) => {
             const ordinal = index;
             return (
               <div className='App-subcomponent' key={ ordinal }>
                 <div></div>
                 <div style={{ paddingLeft: '230px' }}>
                   <input type='submit' value='-' onClick={ event => {
-                      const payments = _.cloneDeep(paymentState.payments) || [];
+                      const payments = _.cloneDeep(props.payments) || [];
                       payments.splice(ordinal, 1);
                       const totals = _.cloneDeep(paymentState.totals) || [];
                       totals.splice(ordinal, 1);
-                      setState({ payments, totals });
+                      setState({ totals });
                       props.dispatch(setPayments(payments));
                     }
                   }></input>
@@ -56,42 +53,46 @@ const Payments: React.FC<PaymentsProps> = (props: PaymentsProps) => {
                 <div className='App-field'>MPAN</div>
                 <div className='App-input'>
                   <input type='text' onChange={ event => {
-                      const payments = _.cloneDeep(paymentState.payments!);
+                      const payments = _.cloneDeep(props.payments!);
                       payments[ordinal].card.pan.value = event.target.value;
-                      setState({ payments, totals: paymentState.totals });
+                      setState({ totals: paymentState.totals });
                       props.dispatch(setPayments(payments));
                     }
-                  } value={ paymentState.payments![ordinal].card.pan.value || '' }></input>
+                  } value={ props.payments![ordinal].card.pan.value || '' }></input>
                 </div>
                 <div className='App-field'>RRN</div>
                 <div className='App-input'>
                   <input type='text' onChange={ event => {
-                      const payments = _.cloneDeep(paymentState.payments!);
+                      const payments = _.cloneDeep(props.payments!);
                       payments[ordinal].rrn = event.target.value;
-                      setState({ payments, totals: paymentState.totals });
+                      setState({ totals: paymentState.totals });
                       props.dispatch(setPayments(payments));
                     }
-                  } value={ paymentState.payments![ordinal].rrn || '' }></input>
+                  } value={ props.payments![ordinal].rrn || '' } placeholder={
+                    props.payments![ordinal].rrn === null ? 'null' : ''
+                  }></input>
                 </div>
                 <div className='App-field'>STAN</div>
                 <div className='App-input'>
                   <input type='text' onChange={ event => {
-                      const payments = _.cloneDeep(paymentState.payments!);
+                      const payments = _.cloneDeep(props.payments!);
                       payments[ordinal].stan = event.target.value;
-                      setState({ payments, totals: paymentState.totals });
+                      setState({ totals: paymentState.totals });
                       props.dispatch(setPayments(payments));
                     }
-                  } value={ paymentState.payments![ordinal].stan || '' }></input>
+                  } value={ props.payments![ordinal].stan || '' } placeholder={
+                    props.payments![ordinal].stan === null ? 'null' : ''
+                  }></input>
                 </div>
                 <div className='App-field'>Date</div>
                 <div className='App-input'>
                   <input type='text' onChange={ event => {
-                      const payments = _.cloneDeep(paymentState.payments!);
+                      const payments = _.cloneDeep(props.payments!);
                       payments[ordinal].transaction_date = event.target.value;
-                      setState({ payments, totals: paymentState.totals });
+                      setState({ totals: paymentState.totals });
                       props.dispatch(setPayments(payments));
                     }
-                  } value={ paymentState.payments![ordinal].transaction_date || '' }></input>
+                  } value={ props.payments![ordinal].transaction_date || '' }></input>
                 </div>
                 <div className='App-field'>Amount</div>
                 <div className='App-input'>
@@ -102,9 +103,9 @@ const Payments: React.FC<PaymentsProps> = (props: PaymentsProps) => {
                       }
                       const totals = _.cloneDeep(paymentState.totals!);
                       totals[ordinal] = clean;
-                      const payments = _.cloneDeep(paymentState.payments!);
+                      const payments = _.cloneDeep(props.payments!);
                       payments[ordinal].total = parseFloat(clean) || 0;
-                      setState({ payments, totals });
+                      setState({ totals });
                       props.dispatch(setPayments(payments));
                     }
                   }></input>
@@ -117,16 +118,12 @@ const Payments: React.FC<PaymentsProps> = (props: PaymentsProps) => {
       <div className='App-subcomponent'>
         <div className='App-input'>
           <input type='submit' value='+' onClick={ () => {
-              const payments = _.cloneDeep(paymentState.payments) || [];
-              payments.push(makePaymentInfo({
-                card: makeMaskedCard({ pan: { kind: 'mpan', value: '' } }),
-                rrn: '',
-                stan: '',
-                transaction_date: ''
-              }));
+              const payments = _.cloneDeep(props.payments) || [];
+              payments.push(makePaymentInfo({}));
+              props.dispatch(setPayments(payments));
               const totals = _.cloneDeep(paymentState.totals) || [];
               totals.push('');
-              setState({ payments, totals });
+              setState({ totals });
             } }></input>
         </div>
       </div>

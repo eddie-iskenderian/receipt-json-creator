@@ -177,7 +177,7 @@ export function makeBarcode(
   };
 }
 
-type BasketItem = BasketItem_Product;
+export type BasketItem = BasketItem_Product;
 export interface BasketItem_Product {
   kind: 'product';
   value: BasketProduct;
@@ -421,7 +421,7 @@ export function makePaymentInfo(
     rrn: input.rrn === undefined ? null : input.rrn,
     stan: input.stan === undefined ? null : input.stan,
     auth_code: null,
-    transaction_date: input.transaction_date === undefined ? '01/01/1970' : input.transaction_date,
+    transaction_date: input.transaction_date === undefined ? '' : input.transaction_date,
     purchase_amount: 0,
     total: input.total === undefined ? 0 : input.total,
     currency_code: 'AUD',
@@ -475,7 +475,7 @@ export function makeMaskedCard(
   }
 ): MaskedCard {
   return {
-    pan: input.pan === undefined ? { kind: 'mpan', value: '123456xxxxxx7890' } : input.pan,
+    pan: input.pan === undefined ? { kind: 'mpan', value: '' } : input.pan,
     external_id: input.external_id === undefined ? null : input.external_id,
     name: input.name === undefined ? null : input.name,
     expiry: input.expiry === undefined ? null : input.expiry,

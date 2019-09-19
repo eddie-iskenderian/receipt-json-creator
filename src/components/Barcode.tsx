@@ -9,11 +9,11 @@ import '../App.css';
 
 interface BarcodeProps {
   dispatch: Dispatch<Action>;
-  id?: string;
+  id?: string|null;
 }
 
 const mapStateToProps = (state: ReceiptStore) => ({
-    id: state.barcode ? state.barcode.id : ''
+    id: state.barcode === null ? null : state.barcode.id
 });
 
 const Barcode: React.FC<BarcodeProps> = (props: BarcodeProps) => {
@@ -21,7 +21,11 @@ const Barcode: React.FC<BarcodeProps> = (props: BarcodeProps) => {
     <div className='App-component'>
       <div className='App-field'>Barcode</div>
       <div className='App-input'>
-        <input type='text' onChange={ event => props.dispatch(setBarcode(event.target.value)) }></input>
+        <input type='text' value={ props.id || '' } onChange={
+          event => props.dispatch(setBarcode(event.target.value))
+        } placeholder={
+          props.id === null ? 'null' : ''
+        }></input>
       </div>
     </div>
   );

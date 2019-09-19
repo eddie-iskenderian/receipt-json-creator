@@ -1,5 +1,5 @@
 import * as constants from '../constants';
-import { PaymentInfo } from '../types/receipts';
+import { PaymentInfo, BasketItem } from '../types/receipts';
 
 export type SetAttribute =
   SetTotal
@@ -8,7 +8,8 @@ export type SetAttribute =
   | SetExternalId 
   | SetBarcode 
   | SetReturns
-  | SetPayments;
+  | SetPayments
+  | SetItems;
 
 export interface SetTax {
   type: constants.SET_TAX;
@@ -79,3 +80,13 @@ export const setPayments = (payments: PaymentInfo[]) => ({
   type: constants.SET_PAYMENTS,
   payments
 });
+
+export interface SetItems {
+  type: constants.SET_ITEMS;
+  items: BasketItem[];
+}
+
+export const setItems = (items: BasketItem[]) => ({
+  type: constants.SET_ITEMS,
+  items
+})

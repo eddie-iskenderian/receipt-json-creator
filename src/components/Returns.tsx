@@ -11,7 +11,7 @@ import '../App.css';
 
 interface ReturnsProps {
   dispatch: Dispatch<Action>;
-  return_period?: number;
+  return_period?: number|null;
 }
 
 interface ReturnsState {
@@ -19,7 +19,7 @@ interface ReturnsState {
 }
 
 const mapStateToProps = (state: ReceiptStore) => ({
-  return_period: state.return_period || 0
+  return_period: state.return_period
 });
 
 const Returns: React.FC<ReturnsProps> = (props: ReturnsProps) => {
@@ -38,6 +38,8 @@ const Returns: React.FC<ReturnsProps> = (props: ReturnsProps) => {
             setState({ return_period: clean });
             props.dispatch(setReturns(parseInt(clean, 10) || 0));
           }
+        } placeholder={
+          props.return_period === null ? 'null' : ''
         }></input>
       </div>
     </div>

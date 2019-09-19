@@ -24,3 +24,7 @@ export type SET_RETURNS = typeof SET_RETURNS;
 // Card payments
 export const SET_PAYMENTS = 'SET_PAYMENTS';
 export type SET_PAYMENTS = typeof SET_PAYMENTS;
+
+// Basket items
+export const SET_ITEMS = 'SET_ITEMS';
+export type SET_ITEMS = typeof SET_ITEMS;

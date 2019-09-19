@@ -7,7 +7,8 @@ import {
   SET_EXTERNAL_ID,
   SET_BARCODE,
   SET_RETURNS,
-  SET_PAYMENTS } from '../constants/index';
+  SET_PAYMENTS, 
+  SET_ITEMS } from '../constants/index';
 import { makeBarcode } from '../types/receipts';
 
 export const attributes = (state: ReceiptStore | undefined, action: SetAttribute): ReceiptStore => {
@@ -37,7 +38,10 @@ export const attributes = (state: ReceiptStore | undefined, action: SetAttribute
       return { ...state, return_period: action.returns } ;
 
     case SET_PAYMENTS:
-      return { ...state, payment_data: action.payments }
+      return { ...state, payment_data: action.payments };
+
+    case SET_ITEMS:
+      return { ...state, basket_items: action.items };
    }
   return state;
 };
