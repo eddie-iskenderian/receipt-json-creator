@@ -13,6 +13,7 @@ import Totals from './components/Totals';
 import Returns from './components/Returns';
 
 import './App.css';
+import JsonDump from './components/JsonDump';
 
 interface AppProps {
   receipt?: {};
@@ -30,6 +31,7 @@ export const App: React.FC<AppProps> = (props: AppProps) => {
         <Barcode/>
         <Totals/>
         <Returns/>
+        <JsonDump/>
       </div>
     </Provider>
   );
